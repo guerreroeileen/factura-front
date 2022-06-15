@@ -6,7 +6,6 @@
 
       <div *ngIf="Items">
         <h3>Items agregados a la factura actual</h3>
-
         <div>
           <table class="table">
             <thead>
@@ -31,10 +30,7 @@
             </tbody>
           </table>
 
-
-
           <form [formGroup]="ItemForm" (ngSubmit)="addItem()" novalidate>
-
             <div class="form-group">
               <label>Descripcion del item</label>
               <input type="text" formControlName="descripcionItem" class="form-control" maxlength="20" required>
@@ -48,28 +44,23 @@
               <input type="number" formControlName="valorUnitarioItem" class="form-control" required>
             </div>
             <div style="text-align: right;">
-               <button type="submit" class="btn btn-primary">Agregar Item</button>
+              <button type="submit" mat-raised-button color="primary" [disabled]="ItemForm.invalid">Agregar Item</button>
             </div>
-           
           </form>
-
 
         </div>
       </div>
 
-<hr>
-
-
+      <hr>
 
       <form [formGroup]="productForm" (ngSubmit)="submitForm()" novalidate>
-
         <div class="form-group">
           <label>Razon social emisor</label>
           <input type="text" formControlName="razonSocialEmisor" class="form-control" maxlength="20" required>
         </div>
         <div class="form-group">
           <label>NIT Emisor</label>
-          <input type="text" class="form-control" formControlName="NITEmisor" maxlength="50" required>
+          <input type="text" class="form-control" formControlName="nitEmisor" maxlength="50" required>
         </div>
         <div class="form-group">
           <label>Razon social receptor</label>
@@ -77,36 +68,25 @@
         </div>
         <div class="form-group">
           <label>NIT Receptor</label>
-          <input type="text" formControlName="NITReceptor" class="form-control" required>
+          <input type="text" formControlName="nitReceptor" class="form-control" required>
         </div>
-
         <div style="text-align: center;">
           <label>Valor neto: {{valorNeto}}</label>
           <label>Valor IVA: {{valorIVA}}</label>
           <label>Valor total: {{valorTotal}}</label>
         </div>
-
-        <button type="submit" class="btn btn-primary">Guardar factura</button>
+        <div style="text-align: right;">
+          <button type="submit" mat-raised-button color="primary" [disabled]="productForm.invalid">Guardar factura</button>
+        </div>
       </form>
-
-
-
     </div>
-
-
 
   </mat-tab>
 
-
   <mat-tab label="Listar">
-
     <div style="padding: 15%;">
       <h2>Buscar facturas</h2>
       <input type="text">
     </div>
-
-
-
-
   </mat-tab>
 </mat-tab-group>

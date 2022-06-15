@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-//import { FacturaService } from
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FacturaService } from '../services/factura-service.service';
 
 
 @Component({
@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     public fb: FormBuilder,
+    public facturaService: FacturaService
   ) { };
 
 
@@ -30,17 +31,17 @@ export class AppComponent implements OnInit {
 
     //formulario para la factura
     this.productForm = this.fb.group({
-      razonSocialEmisor: [''],
-      NITEmisor: [''],
-      razonSocialReceptor: [''],
-      NITReceptor: [''],
+      razonSocialEmisor: ['', Validators.required],
+      nitEmisor: ['', Validators.required],
+      razonSocialReceptor: ['', Validators.required],
+      nitReceptor: ['', Validators.required],
     });
 
     //formulario para los items
     this.ItemForm = this.fb.group({
-      descripcionItem: [''],
-      cantidadItem: [''],
-      valorUnitarioItem: [''],
+      descripcionItem: ['', Validators.required],
+      cantidadItem: ['', Validators.min(1)],
+      valorUnitarioItem: ['', Validators.min(1)],
     });
 
 
@@ -51,7 +52,10 @@ export class AppComponent implements OnInit {
   }
 
   submitForm() {
-    console.log(this.productForm);
+    this.productForm.value.items = this.Items;
+    console.log(this.productForm.value);
+    this.facturaService.save(this.productForm.value)
+      .subscribe(resp => { console.log(resp) }, error => { console.log(error)})
 
   }
 
@@ -64,12 +68,10 @@ export class AppComponent implements OnInit {
 
   addItem() {
     this.Items.push (this.ItemForm.value);
-    this.valorNeto = this.valorNeto + (  this.ItemForm.value.cantidadItem *this.ItemForm.value.valorUnitarioItem);
-    this.valorIVA = this.valorNeto* (16/100);
+    this.valorNeto = this.valorNeto + (  this.ItemForm.value.cantidadItem * this.ItemForm.value.valorUnitarioItem);
+    this.valorIVA = this.valorNeto * (16/100);
     this.valorTotal = this.valorNeto + this.valorIVA;
-
-    this.ItemForm.reset;
-
+    this.ItemForm.reset();
   }
 
 }

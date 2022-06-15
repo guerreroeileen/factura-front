@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class FacturaServiceService {
+export class FacturaService {
   private REST_API_SERVER = "http://localhost:8080/factura/";
 
   constructor(private httpClient: HttpClient) { }
@@ -15,7 +15,7 @@ export class FacturaServiceService {
   }
 
   public getNITReceptor (NITReceptor: string): Observable<any>{
-    return this.httpClient.get(this.REST_API_SERVER+'nitreceptor')
+    return this.httpClient.get(this.REST_API_SERVER + 'nitreceptor/' + NITReceptor)
   }
 
 
